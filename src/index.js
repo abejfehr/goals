@@ -110,8 +110,8 @@ elements.forEach(element => {
 
     document.querySelector(
       "output"
-    ).innerHTML = `You would need to put away $${payments[0].payment.toFixed(
+    ).innerHTML = `You'll reach your goal if you put away $${payments[0].payment.toFixed(
       2
-    )} every ${getReadableFrequency(frequency)}`;
+    )} every ${getReadableFrequency(frequency)}!`;
   });
 });

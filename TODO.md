@@ -1,0 +1,4 @@
+- animate graph up and down
+- make graph take up full space
+- remove borders from all the inputs
+- add some margin on the text

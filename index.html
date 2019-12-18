@@ -15,10 +15,13 @@
       body {
         background-color: #fefefe;
       }
-      h1 {
+      header {
         font-family: "Playfair Display", serif;
-        font-size: 42px;
         text-align: center;
+      }
+      h1 {
+        font-size: 42px;
+        margin-bottom: 0;
       }
       main {
         font-family: "Lato", sans-serif;
@@ -40,6 +43,9 @@
       output {
         font-size: 24px;
       }
+      input {
+        max-width: 150px;
+      }
       #chart {
         flex: 1;
       }
@@ -48,6 +54,7 @@
   <body>
     <header>
       <h1>Short Term Savings Helper</h1>
+      <p>AKA #goals</p>
     </header>
     <main>
       <form>
