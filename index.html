@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Save for Goals</title>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato|Playfair+Display:700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background-color: #fefefe;
+      }
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 42px;
+        text-align: center;
+      }
+      main {
+        font-family: "Lato", sans-serif;
+        display: flex;
+      }
+      form {
+        flex: 1;
+      }
+      form p {
+        font-size: 20px;
+        line-height: 1.5;
+      }
+      form input {
+        font-size: 20px;
+      }
+      form select {
+        font-size: 20px;
+      }
+      output {
+        font-size: 24px;
+      }
+      #chart {
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Short Term Savings Helper</h1>
+    </header>
+    <main>
+      <form>
+        <p>
+          <span>I want to save for</span>
+          <input />
+          <span>I'll need $</span>
+          <input type="text" value="5000" name="goalAmount" />
+          <span>by</span>
+          <input type="date" value="2020-05-01" name="goalDate" />
+          <span>and I already have $</span>
+          <input type="text" value="0" name="principal" />
+          <span>I can save money every</span>
+          <select name="frequency">
+            <option value="WEEKLY">week</option>
+            <option value="BIWEEKLY">2 weeks</option>
+            <option value="MONTHLY">month</option>
+          </select>
+        </p>
+        <output></output>
+      </form>
+      <div id="chart">
+        <svg></svg>
+      </div>
+    </main>
+    <script src="dist/main.js"></script>
+  </body>
+</html>
