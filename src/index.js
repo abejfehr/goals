@@ -6,9 +6,13 @@ import {
 import * as d3 from "d3";
 
 const renderGraph = data => {
+  const container = document.querySelector("#chart");
+
   var margin = { top: 10, right: 30, bottom: 30, left: 50 };
-  var width = 460 - margin.left - margin.right;
-  var height = 400 - margin.top - margin.bottom;
+  var width =
+    container.getBoundingClientRect().width - margin.left - margin.right;
+  var height =
+    container.getBoundingClientRect().height - margin.top - margin.bottom;
 
   var svg = d3.select("#chart > svg");
 
@@ -39,8 +43,6 @@ const renderGraph = data => {
       })
     ])
     .range([height, 0]);
-
-  svg.append("g").call(d3.axisLeft(y));
 
   svg
     .append("path")
