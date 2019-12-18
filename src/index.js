@@ -10,8 +10,6 @@ const renderGraph = data => {
   var width = 460 - margin.left - margin.right;
   var height = 400 - margin.top - margin.bottom;
 
-  console.log("appendinga path 5");
-
   var svg = d3.select("#chart > svg");
 
   svg.selectAll("*").remove();
@@ -22,7 +20,6 @@ const renderGraph = data => {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  console.log("appendinga path 1");
   var x = d3
     .scaleTime()
     .domain(d3.extent(data, d => d.date))
@@ -45,7 +42,6 @@ const renderGraph = data => {
 
   svg.append("g").call(d3.axisLeft(y));
 
-  console.log("appendinga path mo");
   svg
     .append("path")
     .datum(data)
@@ -71,22 +67,20 @@ const elements = document.querySelectorAll(
   "input[name=goalAmount],input[name=goalDate],input[name=principal],select[name=frequency]"
 );
 
-elements.forEach(element => {
-  element.addEventListener("input", e => {
-    e.preventDefault();
+const readInputsAndRenderGraph = () => {
+  // Get the values
+  const goalAmount = Number(
+    document.querySelector("input[name=goalAmount]").value
+  );
+  const goalDate = new Date(
+    document.querySelector("input[name=goalDate]").value
+  );
+  const principal = Number(
+    document.querySelector("input[name=principal]").value
+  );
+  const frequency = document.querySelector("select[name=frequency]").value;
 
-    // Get the values
-    const goalAmount = Number(
-      document.querySelector("input[name=goalAmount]").value
-    );
-    const goalDate = new Date(
-      document.querySelector("input[name=goalDate]").value
-    );
-    const principal = Number(
-      document.querySelector("input[name=principal]").value
-    );
-    const frequency = document.querySelector("select[name=frequency]").value;
-
+  try {
     const payments = findPaymentAmountByGoalDate({
       goalDate,
       goalAmount,
@@ -108,10 +102,19 @@ elements.forEach(element => {
       }
     };
 
-    document.querySelector(
-      "output"
-    ).innerHTML = `You'll reach your goal if you put away $${payments[0].payment.toFixed(
+    const output = document.querySelector("output");
+    output.classList.remove("is-error");
+    output.innerHTML = `You'll reach your goal if you put away $${payments[0].payment.toFixed(
       2
     )} every ${getReadableFrequency(frequency)}!`;
-  });
+  } catch (error) {
+    const output = document.querySelector("output");
+    output.classList.add("is-error");
+    output.innerHTML = error;
+  }
+};
+
+elements.forEach(element => {
+  element.addEventListener("input", readInputsAndRenderGraph);
 });
+readInputsAndRenderGraph();

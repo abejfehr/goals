@@ -17,11 +17,39 @@ export const findPaymentAmountByGoalDate = ({
   goalDate,
   goalAmount,
   frequency,
-  principal
+  principal = 0
 }) => {
+  if (goalAmount < principal) {
+    throw new Error(
+      "Goal amount must be higher than the amount you already have"
+    );
+  }
+
+  if (Number.isNaN(goalAmount)) {
+    throw new Error("Goal amount must be a number");
+  }
+  if (goalAmount < 0) {
+    throw new Error("Goal amount must be positive");
+  }
+  if (goalAmount === 0) {
+    throw new Error("Goal amount must not be zero");
+  }
+
+  if (Number.isNaN(principal)) {
+    throw new Error("Starting amount must be a number");
+  }
+  if (principal < 0) {
+    throw new Error("Starting amount must be positive");
+  }
+
+  let today = new Date();
+
+  if (goalDate < today) {
+    throw new Error("Goal date must be in the future");
+  }
+
   let balance = principal;
   const periods = [];
-  let today = new Date();
   // TODO: Change amount being incremented by depending on frequency
   for (let d = new Date(); d <= goalDate; d.setDate(d.getDate() + 1)) {
     // Is d the same day as today?

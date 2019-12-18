@@ -23,12 +23,17 @@
         font-size: 42px;
         margin-bottom: 0;
       }
+      h2 {
+        font-family: "Lato", sans-serif;
+        font-weight: bold;
+      }
       main {
         font-family: "Lato", sans-serif;
         display: flex;
       }
-      form {
+      section {
         flex: 1;
+        padding: 20px;
       }
       form p {
         font-size: 20px;
@@ -43,42 +48,50 @@
       output {
         font-size: 24px;
       }
+      output.is-error {
+        color: red;
+      }
       input {
         max-width: 150px;
-      }
-      #chart {
-        flex: 1;
+        border: none;
+        border-bottom: 1px solid gray;
       }
     </style>
   </head>
   <body>
     <header>
       <h1>Short Term Savings Helper</h1>
-      <p>AKA #goals</p>
+      <h2>#goals</h2>
     </header>
     <main>
-      <form>
-        <p>
-          <span>I want to save for</span>
-          <input />
-          <span>I'll need $</span>
-          <input type="text" value="5000" name="goalAmount" />
-          <span>by</span>
-          <input type="date" value="2020-05-01" name="goalDate" />
-          <span>and I already have $</span>
-          <input type="text" value="0" name="principal" />
-          <span>I can save money every</span>
-          <select name="frequency">
-            <option value="WEEKLY">week</option>
-            <option value="BIWEEKLY">2 weeks</option>
-            <option value="MONTHLY">month</option>
-          </select>
-        </p>
-        <output></output>
-      </form>
-      <div id="chart">
+      <section>
+        <form>
+          <p>
+            <span>I want to save for</span>
+            <input value="a new MacBook" />
+          </p>
+          <p>
+            <span>I'll need $</span>
+            <input type="text" value="2230" name="goalAmount" />
+            <span>by</span>
+            <input type="date" value="2020-05-01" name="goalDate" />
+            <span>and I already have $</span>
+            <input type="text" value="0" name="principal" />
+          </p>
+          <p>
+            <span>I can save money every</span>
+            <select name="frequency">
+              <option value="WEEKLY">week</option>
+              <option value="BIWEEKLY">2 weeks</option>
+              <option value="MONTHLY">month</option>
+            </select>
+          </p>
+          <output></output>
+        </form>
+      </section>
+      <section id="chart">
         <svg></svg>
-      </div>
+      </section>
     </main>
     <script src="dist/main.js"></script>
   </body>
