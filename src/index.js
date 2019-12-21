@@ -3,67 +3,7 @@ import {
   findPaymentAmountByGoalDate,
   FREQUENCY
 } from "./savings-service";
-import * as d3 from "d3";
-
-const renderGraph = data => {
-  const container = document.querySelector("#chart");
-
-  var margin = { top: 10, right: 30, bottom: 30, left: 50 };
-  var width =
-    container.getBoundingClientRect().width - margin.left - margin.right;
-  var height =
-    container.getBoundingClientRect().height - margin.top - margin.bottom;
-
-  var svg = d3.select("#chart > svg");
-
-  svg.selectAll("*").remove();
-
-  svg
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-  var x = d3
-    .scaleTime()
-    .domain(d3.extent(data, d => d.date))
-    .range([0, width]);
-
-  svg
-    .append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x));
-
-  var y = d3
-    .scaleLinear()
-    .domain([
-      0,
-      d3.max(data, function(d) {
-        return +d.value;
-      })
-    ])
-    .range([height, 0]);
-
-  svg
-    .append("path")
-    .datum(data)
-    .attr("fill", "#cce5df")
-    .attr("stroke", "#69b3a2")
-    .attr("stroke-width", 1.5)
-    .attr(
-      "d",
-      d3
-        .area()
-        .curve(d3.curveStepAfter)
-        .x(function(d) {
-          return x(d.date);
-        })
-        .y0(y(0))
-        .y1(function(d) {
-          return y(d.value);
-        })
-    );
-};
+import { renderGraph } from "./graph-renderer";
 
 const elements = document.querySelectorAll(
   "input[name=goalAmount],input[name=goalDate],input[name=principal],select[name=frequency]"
@@ -90,8 +30,44 @@ const readInputsAndRenderGraph = () => {
       principal
     });
 
+    // Append yesterday to the payments
+    const firstDate = payments[0].date;
+    const lastDate = payments[payments.length - 1].date;
+    const weekBefore = cloneDate(firstDate);
+    const weekAfter = cloneDate(lastDate);
+    weekBefore.setDate(firstDate.getDate() - 7);
+    weekAfter.setDate(lastDate.getDate() + 7);
+
     // Render the graph
-    renderGraph(payments);
+    const newPayments = [
+      ...payments,
+      {
+        date: weekAfter,
+        payment: 0,
+        value: payments[payments.length - 1].value
+      }
+    ];
+
+    const getReadableDate = date => {
+      const MONTHS = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ];
+
+      return `${
+        MONTHS[date.getMonth()]
+      } ${date.getDate()}, ${date.getFullYear()}`;
+    };
 
     const getReadableFrequency = f => {
       switch (f) {
@@ -104,11 +80,34 @@ const readInputsAndRenderGraph = () => {
       }
     };
 
-    const output = document.querySelector("output");
-    output.classList.remove("is-error");
-    output.innerHTML = `You'll reach your goal if you put away $${payments[0].payment.toFixed(
-      2
-    )} every ${getReadableFrequency(frequency)}!`;
+    const isToday = date => {
+      const today = new Date();
+
+      return (
+        date.getFullYear() === today.getFullYear() &&
+        date.getDate() === today.getDate() &&
+        date.getMonth() === today.getMonth()
+      );
+    };
+
+    const onScrub = dataPoint => {
+      const output = document.querySelector("output");
+      output.classList.remove("is-error");
+      if (dataPoint.value === goalAmount) {
+        output.innerHTML = `You'll reach your goal if you put away $${dataPoint.payment.toFixed(
+          2
+        )} every ${getReadableFrequency(frequency)}!`;
+      } else if (isToday(dataPoint.date)) {
+        output.innerHTML = `To start off, put away $${dataPoint.payment.toFixed(
+          2
+        )} today!`;
+      } else {
+        output.innerHTML = `You'll have $${dataPoint.value.toFixed(
+          2
+        )} by ${getReadableDate(dataPoint.date)}.`;
+      }
+    };
+    renderGraph(newPayments, onScrub);
   } catch (error) {
     const output = document.querySelector("output");
     output.classList.add("is-error");

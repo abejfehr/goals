@@ -24,23 +24,32 @@
         flex-direction: column;
       }
       header {
-        font-family: "Playfair Display", serif;
-        text-align: center;
-      }
-      h1 {
-        font-size: 42px;
-        margin-bottom: 0;
-        margin-top: 0;
-        padding-top: 30px;
+        text-align: right;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 20px;
       }
       h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 50px;
+        margin-bottom: 0;
+        margin-top: 0;
+        padding-top: 8px;
+      }
+      h1 {
+        font-size: 18px;
         font-family: "Lato", sans-serif;
         font-weight: 900;
+        margin-top: 8px;
+        color: #555;
       }
       main {
         font-family: "Lato", sans-serif;
         display: flex;
+        flex-direction: column;
         flex: 1;
+        position: relative;
         /* height: 100%; */
       }
       section {
@@ -49,21 +58,31 @@
       }
       section#chart {
         padding: 0;
+        position: relative;
       }
       form p {
-        font-size: 20px;
+        font-size: 18px;
         line-height: 1.5;
+        margin-bottom: 25px;
+        /* color: #555; */
+      }
+      form p:first-child {
+        margin-top: 0;
       }
       form input {
-        font-size: 20px;
+        font-size: 18px;
       }
       form select {
-        font-size: 20px;
+        font-size: 18px;
       }
       output {
         font-size: 24px;
         font-weight: bold;
         color: green;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding-left: 20px;
       }
       output.is-error {
         color: red;
@@ -95,12 +114,15 @@
     </style>
   </head>
   <body>
-    <header>
-      <h1>Short Term Savings Helper</h1>
-      <h2>#goals</h2>
-    </header>
+    <!-- <header>
+    </header> -->
     <main>
       <section>
+        <header>
+          <h2>#goals</h2>
+          <h1>A Short Term Savings Helper</h1>
+        </header>
+
         <form>
           <p>
             <span>I want to save for</span>
@@ -122,10 +144,10 @@
               <option value="MONTHLY">month</option>
             </select>
           </p>
-          <output></output>
         </form>
       </section>
       <section id="chart">
+        <output></output>
         <svg></svg>
       </section>
     </main>

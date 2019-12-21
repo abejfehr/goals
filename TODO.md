@@ -1,4 +1,9 @@
+- style output better
+- draw graph line fully (fix missed lines)
+- handle case of 28-31 of the month
 - animate graph up and down
-- make graph take up full space
-- remove borders from all the inputs
-- add some margin on the text
+- use autonumeric
+- make datepicker custom
+  - say "today" for today's date
+  - say "tomorrow" for tomorrow's date
+  - say readable date otherwise
