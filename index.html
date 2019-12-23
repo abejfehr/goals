@@ -25,10 +25,8 @@
       }
       header {
         text-align: right;
-        position: absolute;
-        top: 0;
-        right: 0;
         padding: 20px;
+        flex: 1;
       }
       h2 {
         font-family: "Playfair Display", serif;
@@ -51,6 +49,11 @@
         flex: 1;
         position: relative;
         /* height: 100%; */
+      }
+      section:first-child {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
       }
       section {
         flex: 1;
@@ -111,18 +114,23 @@
         right: 0;
         top: 50%;
       } */
+      @media screen and (max-width: 600px) {
+        section:first-child {
+          flex-direction: column;
+        }
+        header {
+          text-align: center;
+        }
+      }
     </style>
   </head>
   <body>
-    <!-- <header>
-    </header> -->
     <main>
       <section>
         <header>
           <h2>#goals</h2>
           <h1>A Short Term Savings Helper</h1>
         </header>
-
         <form>
           <p>
             <span>I want to save for</span>
